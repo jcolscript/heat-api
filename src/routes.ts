@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { AuthenticateUserController } from "./controllers/AuthenticateUserController";
 import { CreateMessageController } from "./controllers/CreateMessageController";
+import { GetLastMessagesController } from "./controllers/GetLastMessagesController";
 import { ensureAuthenticated } from "./middleware/ensureAuthenticated";
 
 const router = Router();
@@ -17,10 +18,12 @@ router.get("/signin/callback", (req: Request, resp: Response) => {
 });
 
 router.post("/auth", new AuthenticateUserController().handle);
+
 router.post(
-  "/message",
+  "/messages",
   ensureAuthenticated,
   new CreateMessageController().handle
 );
+router.get("/messages", new GetLastMessagesController().handle);
 
 export { router };
