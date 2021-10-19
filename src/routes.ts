@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import { AuthenticateUserController } from "./controllers/AuthenticateUserController";
 import { CreateMessageController } from "./controllers/CreateMessageController";
 import { GetLastMessagesController } from "./controllers/GetLastMessagesController";
+import { ProfileUserController } from "./controllers/ProfileUserController";
 import { ensureAuthenticated } from "./middleware/ensureAuthenticated";
 
 const router = Router();
@@ -18,6 +19,8 @@ router.get("/signin/callback", (req: Request, resp: Response) => {
 });
 
 router.post("/auth", new AuthenticateUserController().handle);
+
+router.get("/profile", ensureAuthenticated, new ProfileUserController().handle);
 
 router.post(
   "/messages",
